@@ -1,7 +1,7 @@
 import React from "react";
 import { Container, Row, Col, Button, Accordion } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
-
+import appoint from "../../assets/appointment.svg";
 function Appointment() {
   const navigate = useNavigate();
 
@@ -39,7 +39,7 @@ function Appointment() {
         </Col>
         <Col md={6}>
           <img
-            src="https://via.placeholder.com/500x300" // Placeholder image for demonstration
+            src={appoint} // Placeholder image for demonstration
             alt="Book an Appointment"
             className="img-fluid"
           />

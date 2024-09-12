@@ -1,5 +1,6 @@
 import React from "react";
 import { Container, Row, Col, Button } from "react-bootstrap";
+import hero from "../../assets/hero.svg"
 function Hero() {
   return (
     <Container
@@ -17,16 +18,16 @@ function Hero() {
             and expert medical staff are here to support your health and
             well-being.
           </p>
-          <Button variant="primary" href="#appointment" className="me-3">
+          <Button  class="btn-primary" href="#appointment" className="me-3">
             Book an Appointment
           </Button>
-          <Button variant="outline-primary" href="#contact">
+          <Button  class="btn-outline-primary" href="#contact">
             Contact Us
           </Button>
         </Col>
         <Col md={6} data-aos="fade-left">
           <img
-            src="https://via.placeholder.com/600x400"
+            src={hero}
             alt="Shivam Medical Facility"
             className="img-fluid rounded"
           />
