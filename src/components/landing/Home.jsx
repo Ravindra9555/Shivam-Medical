@@ -10,7 +10,7 @@ const Home = () => {
 
   return (
     <>
-    <HomeNavbar />
+    <HomeNavbar  />
     <div style={{ paddingTop: '70px' }}> {/* Adjust padding based on navbar height */}
       <Hero />
       <About />

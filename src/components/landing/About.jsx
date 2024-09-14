@@ -1,21 +1,22 @@
 import React from "react";
 import { Container, Row, Col, Card } from "react-bootstrap";
+import jp from "../../assets/jp.jpg"
 
 const About = () => {
   
 const leadershipTeam = [
     {
-      name: 'Dr. John Doe',
+      name: 'Mr. Jagdish ',
       title: 'CEO',
       description: 'An experienced leader with a passion for improving healthcare systems.',
-      image: 'https://via.placeholder.com/150', // Placeholder image
+      image: jp, // Placeholder image
       social: {
         twitter: 'https://twitter.com/johndoe',
         linkedin: 'https://linkedin.com/in/johndoe',
       },
     },
     {
-      name: 'Dr. Jane Smith',
+      name: 'Dr. IT Khan',
       title: 'Chief Medical Officer',
       description: 'A dedicated physician overseeing our clinical operations and patient care.',
       image: 'https://via.placeholder.com/150', // Placeholder image
@@ -57,7 +58,7 @@ const leadershipTeam = [
       <Row className="mb-5">
         <Col md={6} data-aos="fade-right">
          
-          <h3> <i className="bx bxs-heart about-icon text-primary"></i>Our Mission</h3>
+          <h3 className="d-flex align-items-center"> <i className="bx bxs-heart about-icon  primary-color fs-1"></i>Our Mission</h3>
           <p>
             To deliver compassionate, high-quality medical care with a focus on
             patient well-being and advanced treatments.
@@ -65,7 +66,7 @@ const leadershipTeam = [
         </Col>
         <Col md={6} data-aos="fade-left">
        
-          <h3>    <i className="bx bxs-bullseye about-icon text-primary"></i>Our Vision</h3>
+          <h3 className="d-flex align-items-center">    <i className="bx bxs-bullseye about-icon align-items-center primary-color fs-1"></i>Our Vision</h3>
           <p>
             To be a leader in healthcare excellence, continuously improving to
             meet the evolving needs of our patients.
@@ -82,7 +83,7 @@ const leadershipTeam = [
       <Row>
         {leadershipTeam.map((leader, index) => (
           <Col xs={12} md={6} lg={4} key={index} className="mb-4" data-aos="fade-up">
-            <Card className="shadow-sm h-100">
+            <Card className="shadow-sm h-100 secondary-background">
               <Card.Img
                 variant="top"
                 className="mt-2"
@@ -127,7 +128,7 @@ const leadershipTeam = [
             <Card className="shadow-sm">
               <Card.Body>
                 <div className="service-icon mb-3 fs-3 text-primary">
-                  <i className={`bx ${service.icon} about-icon`}></i>
+                  <i className={`bx ${service.icon} about-icon primary-color fs-1`}></i>
                 </div>
                 <Card.Title>{service.title}</Card.Title>
                 <Card.Text>{service.description}</Card.Text>

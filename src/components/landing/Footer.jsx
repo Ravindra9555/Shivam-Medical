@@ -24,8 +24,8 @@ const Footer = () => {
           </Col>
           <Col md={4} className="mb-4">
             <h4>Contact Information</h4>
-            <p><strong>Address:</strong> 123 Health Avenue, City, State, ZIP</p>
-            <p><strong>Phone:</strong> (123) 456-7890</p>
+            <p><strong>Address:</strong> Kakrahwa Bazar (Sabji Mandi ) , Uttar Pradesh  ( 272206)</p>
+            <p><strong>Phone:</strong> +91 7379429626</p>
             <p><strong>Email:</strong> contact@shivammedical.com</p>
             <div className="social-icons">
               <a href="https://www.facebook.com" target="_blank" rel="noopener noreferrer">

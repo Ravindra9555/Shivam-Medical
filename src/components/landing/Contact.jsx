@@ -53,12 +53,12 @@ const Contact = () => {
                  Address
               </Card.Title>
               <Card.Text>
-                123 Health Avenue, City, State, ZIP
+                 Kakrahwa Bazar , Uttar Pradesh  ( 272206)
               </Card.Text>
               
               <div className="map-iframe">
                 <iframe
-                  src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3153.155675867297!2d-122.4194183846814!3d37.77492927975956!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x8085808e5c9e39d5%3A0x4857f5a60e0d1f0b!2sSan%20Francisco%2C%20CA!5e0!3m2!1sen!2sus!4v1630616431177!5m2!1sen!2sus"
+                  src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d221.3697493601068!2d83.2157607823993!3d27.409550258007208!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3996eaf2de2aa921%3A0x559bf3044fb8d454!2sShivam%20medical%20store!5e0!3m2!1sen!2sin!4v1726341585620!5m2!1sen!2sin"
                   width="100%"
                   height="300"
                   style={{ border: 0 }}
@@ -79,25 +79,25 @@ const Contact = () => {
           <h3>Contact Information</h3>
           <Row>
             <Col md={4} className="mb-4">
-              <Card className="text-center">
+              <Card className="text-center secondary-background">
                 <Card.Body>
                   <BsFillTelephoneFill className=" icon fs-3 text-primary" />
                   <Card.Title>General Inquiries</Card.Title>
-                  <Card.Text>(123) 456-7890</Card.Text>
+                  <Card.Text>+91 6394323760</Card.Text>
                 </Card.Body>
               </Card>
             </Col>
             <Col md={4} className="mb-4">
-              <Card className="text-center">
+              <Card className="text-center secondary-background">
                 <Card.Body>
                   <BsFillTelephoneFill className=" icon fs-3 text-primary" />
                   <Card.Title>Emergency Contact</Card.Title>
-                  <Card.Text>(123) 456-7891</Card.Text>
+                  <Card.Text>+91 7379429626</Card.Text>
                 </Card.Body>
               </Card>
             </Col>
             <Col md={4} className="mb-4">
-              <Card className="text-center">
+              <Card className="text-center secondary-background">
                 <Card.Body>
                   <BsFillEnvelopeFill className=" icon fs-3 text-primary" />
                   <Card.Title>Email</Card.Title>

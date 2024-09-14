@@ -6,16 +6,29 @@
   font-style: normal;
   font-variation-settings: "wdth" 100;
 }
-
+/*  vaiables  */
 .btn-primary{
   background-color: #64AFAE !important;
 }
 .btn-outline-primary{
-  background-color: #f9fbfb !important;
-  color: #003366 !important;
-  border: 1px solid #003366 !important;
-}
 
+  border: 1px solid  #64AFAE !important;
+  color:  #64AFAE !important;
+}
+.btn-outline-primary:hover{
+
+   background-color:  #64AFAE !important;
+  color:  #ffffff !important;
+}
+.primary-color{
+  color: #64AFAE !important;
+}
+.background{
+   background-color:  #64AFAE !important
+}
+.secondary-background{
+   background-color: #f2f7f7 !important;
+}
 /*  leader ship team  */
 .leadership-section h3 {
   color: #003366;

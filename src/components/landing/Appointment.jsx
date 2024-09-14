@@ -30,10 +30,10 @@ function Appointment() {
             <i className="bx bx-phone icon"></i> Booking Information
           </h3>
           <p>
-            <strong>Phone Appointments:</strong> Call (123) 456-7894 to schedule
+            <strong>Phone Appointments:</strong> Call +91 6394323760 to schedule
             by phone.
           </p>
-          <Button variant="primary" size="lg" onClick={handleBookAppointment}>
+          <Button variant="outline-primary" size="lg" onClick={handleBookAppointment}>
             Book an Appointment
           </Button>
         </Col>
@@ -57,7 +57,7 @@ function Appointment() {
               <Accordion.Header>How do I book an appointment?</Accordion.Header>
               <Accordion.Body>
                 You can use our online booking system or call us directly at
-                (123) 456-7894.
+               +91 6394323760.
               </Accordion.Body>
             </Accordion.Item>
             <Accordion.Item eventKey="1">
