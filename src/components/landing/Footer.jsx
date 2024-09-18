@@ -1,6 +1,6 @@
 import React from 'react';
 import { Container, Row, Col, ListGroup, ListGroupItem } from 'react-bootstrap';
-import { BsFacebook, BsTwitter, BsInstagram, BsLinkedin, BsGithub } from 'react-icons/bs'; // Boxicons equivalents
+import { BsFacebook, BsTwitter, BsInstagram, BsLinkedin, BsGithub, BsPersonCircle } from 'react-icons/bs'; // Boxicons equivalents
 
 const Footer = () => {
   return (
@@ -24,6 +24,9 @@ const Footer = () => {
               </div>
             </div>
             <div className="social-icons">
+              <a href="https:ravindra.vercel.app/" target="_blank" rel="noopener noreferrer">
+                <BsPersonCircle className="icon" />
+              </a>
               <a href="https://www.github.com/ravindra9555" target="_blank" rel="noopener noreferrer">
                 <BsGithub className="icon" />
               </a>
