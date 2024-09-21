@@ -5,10 +5,13 @@ import { BsEye, BsEyeSlash } from "react-icons/bs"; // Eye icons
 
 import { Link } from "react-router-dom";
  import loginimg  from  "../../assets/login.svg"
+import axios from "axios";
+import Swal from "sweetalert2";
+import Loader from "../loader/Loader";
 const Login = () => {
   const [passwordVisible, setPasswordVisible] = useState(false);
   const [formData, setFormData] = useState({ email: "", password: "" });
-
+  const [loding ,setLoding]= useState(false);
 
 
   const handleInputChange = (e) => {
@@ -20,12 +23,33 @@ const Login = () => {
     setPasswordVisible(!passwordVisible);
   };
 
-  const handleLogin = (e) => {
+  const handleLogin = async(e) => {
     e.preventDefault();
-    // Handle login logic
-    console.log(formData);
+    try {
+      setLoding(true);
+      const res = await axios.post (`${import.meta.env.VITE_BASEURL}/v1/api/users/login`,formData);
+      if(res.status == 200 && res.data.statusCode==200){
+         Swal.fire({
+          icon:'success',
+          title: 'Success',
+          text:  res.data.message,
+         })
+      }
+    } catch (error) {
+      Swal.fire({
+        icon: 'error',
+        title: 'Error',
+        text: error.response.data.message,
+      }) 
+      
+    }
+    finally{
+      setLoding(false);
+    }
   };
-
+ if(loding){
+  return <Loader/>
+ }
   return (
     <>
       <HomeNavbar />
@@ -81,6 +105,9 @@ const Login = () => {
                           value={formData.password}
                           onChange={handleInputChange}
                           required
+                          minLength={8}
+                          pattern="^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$"
+                          title="Password must be at least 8 characters long, contain at least one uppercase letter, one lowercase letter, one number, and one special character"
                         />
                         <span
                           className="position-absolute"

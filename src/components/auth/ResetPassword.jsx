@@ -1,9 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import { Form, Button, Card, Container, Row, Col, Alert } from 'react-bootstrap';
-
+ import { useParams, useNavigate } from 'react-router-dom';
 import axios from 'axios';
+import Swal from 'sweetalert2';
 
 const ResetPassword = () => {
+  const {resetToken} = useParams();
+  const navigate = useNavigate();
   const [formData, setFormData] = useState({
     password: '',
     confirmPassword: '',
@@ -35,16 +38,27 @@ const ResetPassword = () => {
 
     try {
       // Make a POST request to update the password
-      const response = await axios.post('/api/auth/reset-password', {
+      const response = await axios.post(`${import.meta.env.VITE_BASEURL}/v1/api/users/changepassword`, {
         password: formData.password,
+        resetToken : resetToken
       });
+        if(response.status ==200){
+          Swal.fire({
+            icon:'success',
+            title: 'Success',
+            text: response.data.message,
+          }).then(()=>{
 
+            navigate('/');
+          })
+        }
       // Handle success response
       setSuccess('Your password has been reset successfully.');
       setFormData({ password: '', confirmPassword: '' });
     } catch (err) {
-      setError('Failed to reset password. Please try again.');
-    } finally {
+      console.log(err)
+      setError(err?.response.data.message);
+    } finally { 
       setLoading(false);
     }
   };
@@ -69,7 +83,9 @@ const ResetPassword = () => {
                   value={formData.password}
                   onChange={handleInputChange}
                   required
-                  minLength={6}
+                  minLength={8}
+                  pattern="^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$"
+                  title="Password must be at least 8 characters long, contain at least one uppercase letter, one lowercase letter, one number, and one special character"
                 />
               </Form.Group>
 

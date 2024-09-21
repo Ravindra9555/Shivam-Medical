@@ -10,6 +10,7 @@ import {
 } from "react-bootstrap";
 import Loader from "../loader/Loader";
 import axios from "axios";
+import Swal from "sweetalert2";
 
 const ForgetPassword = () => {
   const [email, setEmail] = useState("");
@@ -31,15 +32,20 @@ const ForgetPassword = () => {
 
     try {
       // Make a POST request to the backend to send the reset password link
-      const response = await axios.post("www.gole.com", { email });
+      const response = await axios.post(`${import.meta.env.VITE_BASEURL}/v1/api/users/resetlink`, { email });
       if (response.status === 200) {
-        setMessage("A password reset link has been sent to your email.");
+        setMessage( response.data.message);
+        Swal.fire({
+          icon: "success",
+          title: "Success",
+          text: message ,
+        })
       } else {
         throw new Error("Failed to send reset link. Please try again.");
       }
-      setMessage("A password reset link has been sent to your email.");
+     
     } catch (error) {
-      setError("Failed to send reset link. Please try again.");
+      setError(error?.response.data.message);
     } finally {
       setLoading(false);
     }
@@ -71,6 +77,7 @@ const ForgetPassword = () => {
                     <Form.Control
                       type="email"
                       placeholder="Enter your email"
+                      
                       value={email}
                       onChange={handleInputChange}
                       required
