@@ -5,6 +5,7 @@ import About from "./About";
 import Appointment from "./Appointment";
 import Contact from "./Contact";
 import Footer from "./Footer";
+import { Link } from "react-router-dom";
 
 const Home = () => {
 
@@ -17,6 +18,7 @@ const Home = () => {
       <Appointment />
       <Contact />
       <Footer />
+      <Link to="/adminlogin">Ad</Link>
     </div>
   </>
   );
