@@ -14,9 +14,9 @@ import "bootstrap/dist/js/bootstrap.bundle.js";
 import { AdminProvider } from "./context/AdminContext.jsx";
 AOS.init();
 createRoot(document.getElementById("root")).render(
-  <StrictMode>
+  // <StrictMode>
     <AdminProvider>
       <App />
     </AdminProvider>
-  </StrictMode>
+  // </StrictMode>
 );

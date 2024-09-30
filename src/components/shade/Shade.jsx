@@ -20,6 +20,12 @@ const Shade = () => {
       submenu: [],
     },
     {
+      title: "Appointments",
+      icon: <FaCartArrowDown />,
+      link: "/appointments",
+      submenu: [],
+    },
+    {
       title: "Orders",
       icon: <FaCartArrowDown />,
       link: "/orders",
@@ -38,6 +44,14 @@ const Shade = () => {
       title: "Customers",
       icon: <IoIosPeople />,
       link: "/customers",
+      submenu: [],
+    
+    },
+    
+    {
+      title: "Doctors",
+      icon: <IoIosPeople />,
+      link: "/doctors",
       submenu: [],
     },
   ];

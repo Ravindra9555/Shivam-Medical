@@ -23,7 +23,7 @@ const Contact = () => {
   const submitHandler = async (e) => {
     e.preventDefault(); // Prevent form from refreshing
     try {
-      const response = await axios.post(`http://127.0.0.1:8081/v1/api/contact/contact`, formData);
+      const response = await axios.post(`${import.meta.env.VITE_BASEURL}/v1/api/contact/contact`, formData);
       if (response.status === 200) {
         Swal.fire({
           icon: 'success',

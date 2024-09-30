@@ -14,7 +14,9 @@ const ForgetPassword = lazy(() =>
 //  admin
 const AdminLogin = lazy(() => import("./components/adminAuth/AdminLogin"));
  const AdminProfle = lazy(() => import("./components/pages/Admin/AdminProfile"));
- const AllAdmin = lazy(()=>import("./components/pages/Admin/AllAdmins"))
+ const AllAdmin = lazy(()=>import("./components/pages/Admin/AllAdmins"));
+ const Appointments = lazy(() => import("./components/pages/Admin/Appointment"));
+ const Doctor = lazy(()=> import("./components/pages/Admin/Doctor"))
 //  const AdminSignup = lazy(() => import("./components/adminauth/AdminSignup"));
 //  const AdminForgetPassword = lazy(() => import("./components/adminauth/AdminForgetPassword"));
 //  const AdminResetPassword = lazy(() => import("./components/adminauth/AdminResetPassword"));
@@ -50,6 +52,8 @@ function App() {
             <Route path="customers" element={<Customers />} />
             <Route path="orders" element={<Orders />} />
             <Route path="dashboard" element={<Dashboard />} />
+            <Route path="appointments" element={<Appointments />} />
+            <Route path="doctors" element={<Doctor />} />
           </Route>
         </Routes>
       </BrowserRouter>
