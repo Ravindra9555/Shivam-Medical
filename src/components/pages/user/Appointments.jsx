@@ -6,18 +6,16 @@ import dayjs from "dayjs";
 import axios from "axios";
 import DataTable from "react-data-table-component";
 import Swal from "sweetalert2";
-import { useNavigate } from "react-router-dom";
 
-const Appointment = () => {
-  const [date, setDate] = useState(dayjs());
+const Appointments = () => {
+  const [date, setDate] = useState(dayjs()); // Initialize as a dayjs object
   const [data, setData] = useState([]);
-  const [dateState, setDateState] = useState(true);
- const navigate = useNavigate();
-  // Define table columns based on actual data structure
+
   const columns = [
     {
       name: "Date/ Time",
-      selector: (row) => dayjs(row.date).format("DD/MM/YYYY") + " - " + dayjs(row.time).format("h:m A"), // Format date properly
+      selector: (row) =>
+        dayjs(row.date).format("DD/MM/YYYY") + " - " + dayjs(row.time).format("hh:mm a"),
       sortable: true,
     },
     {
@@ -35,7 +33,7 @@ const Appointment = () => {
       selector: (row) => {
         if (row.status == "pending") {
           return <span className="badge bg-warning text-white">Pending</span>;
-        } else if (row.status =="completed") {
+        } else if (row.status == "completed") {
           return <span className="badge bg-success text-white">Completed</span>;
         } else {
           return <span className="badge bg-danger text-white">Cancelled</span>;
@@ -50,15 +48,10 @@ const Appointment = () => {
     },
     {
       name: "Action",
+      width: "200px",
       cell: (row) => (
         <div>
-          {row.status == "pending" && (
-            <>
-              <button className="btn btn-sm btn-outline-success" onClick={()=>  CompleteAppointment(row._id)}>Completed</button>
-              <button className="btn btn-sm btn-outline-danger ms-2" onClick={()=>cancelAppointment(row._id)}>Cancel</button>
-            </>
-          )}
-          {row.status == "completed" && (
+          {row.status ==="pending" && (
             <>
               <button className="btn btn-sm btn-outline-warning" onClick={()=> RescheduleAppointment(row._id)}>Re-schedule</button>
               <button className="btn btn-sm btn-outline-danger ms-2" onClick={()=>cancelAppointment(row._id)}>Cancel</button>
@@ -67,25 +60,27 @@ const Appointment = () => {
         </div>
       ),
       sortable: false,
-      width:"200px"
     },
     {
-      name: "Delete",
-      selector: (row) => (
-        <button
-          className="btn btn-sm btn-danger ms-2"
-          onClick={() => deleteAppointment(row._id)} // Attach delete function
-        >
-          Delete
-        </button>
-      ),
-      sortable: false,
-    },
+        name: "Delete",
+        selector: (row) => (
+          <button
+            className="btn btn-sm btn-danger ms-2"
+            onClick={() => deleteAppointment(row._id)} // Attach delete function
+          >
+            Delete
+          </button>
+        ),
+        sortable: false,
+      },
   ];
 
-  // Fetch appointments whenever the date changes
   useEffect(() => {
-    fetchAppointments();
+    getAllAppointments(); // Fetch all appointments initially
+  }, []);
+
+  useEffect(() => {
+    if (date) fetchAppointments(); // Fetch appointments when the date changes
   }, [date]);
 
   const fetchAppointments = async () => {
@@ -93,7 +88,7 @@ const Appointment = () => {
       const res = await axios.post(
         `${import.meta.env.VITE_BASEURL}/v1/api/appointment/getAllAppointmentsByDate`,
         {
-          date: date.format("YYYY-MM-DD"), // Format date to YYYY-MM-DD for API
+          date: date.format("YYYY-MM-DD"), // Format date correctly for the backend
         },
         {
           headers: {
@@ -102,7 +97,6 @@ const Appointment = () => {
         }
       );
       setData(res.data.data);
-      setDateState(true); // Set the fetched appointment data to the state
     } catch (error) {
       console.log("Error fetching appointments:", error);
       Swal.fire({
@@ -122,42 +116,8 @@ const Appointment = () => {
         },
       });
       setData(res.data.data);
-      setDateState(false) // Set the fetched appointment data to the state
     } catch (error) {
       console.log("Error fetching all appointments:", error);
-      Swal.fire({
-        icon: "error",
-        title: "Error",
-        text: error.response?.data?.message || "Something went wrong",
-        timer: 1500,
-      });
-    }
-  };
-
-  // Delete Appointment Function
-  const deleteAppointment = async (appointmentId) => {
-    try {
-      const res = await axios.post(
-        `${import.meta.env.VITE_BASEURL}/v1/api/appointment/deleteAppointment`,
-        {
-          id:appointmentId
-        },
-        {
-          headers: {
-            Authorization: `Bearer ${sessionStorage.getItem("adminToken")}`,
-          },
-        }
-      );
-      Swal.fire({
-        icon: "success",
-        title: "Deleted",
-        text: "Appointment has been deleted",
-        timer: 1500,
-      });
-      // Refetch appointments after deletion
-      fetchAppointments();
-    } catch (error) {
-      console.log("Error deleting appointment:", error);
       Swal.fire({
         icon: "error",
         title: "Error",
@@ -229,10 +189,12 @@ const Appointment = () => {
       });
     }
   };
-  const CompleteAppointment = async (appointmentId) => {
+
+   // Delete Appointment Function
+   const deleteAppointment = async (appointmentId) => {
     try {
       const res = await axios.post(
-        `${import.meta.env.VITE_BASEURL}/v1/api/appointment/changeAppointmentStatusComplete`,
+        `${import.meta.env.VITE_BASEURL}/v1/api/appointment/deleteAppointment`,
         {
           id:appointmentId
         },
@@ -244,8 +206,8 @@ const Appointment = () => {
       );
       Swal.fire({
         icon: "success",
-       
-        text: res.data.message || " Something went wrong",
+        title: "Deleted",
+        text: "Appointment has been deleted",
         timer: 1500,
       });
       // Refetch appointments after deletion
@@ -267,17 +229,17 @@ const Appointment = () => {
           <LocalizationProvider dateAdapter={AdapterDayjs}>
             <DatePicker
               label="Select date"
-              format="DD-MM-YYYY"
               value={date}
               onChange={(newValue) => setDate(newValue)} // Update state with new date
             />
           </LocalizationProvider>
-          <h5 className="text-center ms-4">{dateState? <>{date.format("DD/MM/YYYY")} </>: <>All </> }Appointments</h5>
+          <h4 className="text-center ms-4">
+            {date ? dayjs(date).format("DD/MM/YYYY") : "No date selected"} Appointments
+          </h4>
           <div className="d-flex justify-content-between gap-2">
             <button className="btn btn-primary" onClick={getAllAppointments}>
               All Appointments
             </button>
-            <button className="btn btn-primary" onClick={()=>navigate("/bookappointmentbyadmin")}>Book New Appointment</button>
           </div>
         </div>
         <div className="pt-2 bg-light">
@@ -294,4 +256,4 @@ const Appointment = () => {
   );
 };
 
-export default Appointment;
+export default Appointments;

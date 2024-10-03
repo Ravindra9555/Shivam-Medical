@@ -51,9 +51,9 @@ const Doctor = () => {
       cell: (row) => (
         <div>
         
-          { row.isActive ?<Button variant="outline-warning" onClick={() => EnableDisable(row._id, disable)}>
+          { row.isActive ?<Button variant="outline-warning" onClick={() => EnableDisable(row._id)}>
             Deactivate
-          </Button>: <Button variant="outline-primary" onClick={() => EnableDisable(row._id,enable)}>
+          </Button>: <Button variant="outline-primary" onClick={() => EnableDisable(row._id)}>
             Active
           </Button> }
 
@@ -149,6 +149,7 @@ const Doctor = () => {
           specialization: "",
           profilePic: null,
         });
+        await fetchDoctors();
       }
     } catch (error) {
       // Show error alert
@@ -162,25 +163,45 @@ const Doctor = () => {
     }
   };
 
-  const EnableDisable = async (doctorId,value) => {
+  const EnableDisable = async (doctorId) => {
     try {
-      let url;
-      if(value ==="enable"){
-        url=enable;
-      }
-      else{
-        url ==="disable"
-      }
       const response = await axios.post(
-        `${import.meta.env.VITE_BASEURL}/v1/api/doctorMaster/toggleStatus/`,
+        `${import.meta.env.VITE_BASEURL}/v1/api/doctorMaster/makeDoctorActive`,
         {id: doctorId},
         {
           headers: {
-            Authorization: `Bearer ${localStorage.getItem("token")}`,
+            Authorization: `Bearer ${localStorage.getItem("adminToken")}`,
           },
         }
       );
-      if (response.status === 200) {
+      if (response.data.statusCode == 200 && response.data.success==true) {
+
+        // Show success alert
+        Swal.fire({
+          icon: "success",
+          title: "Success",
+          text: response.data.message,
+          showConfirmButton: false,
+          timer: 1500,
+        });
+        await fetchDoctors();
+      }
+    } catch (error) {
+      console.error("Error enabling/")
+    }
+  }
+  const deleteDoctor = async (doctorId) => {
+    try {
+      const response = await axios.post(
+        `${import.meta.env.VITE_BASEURL}/v1/api/doctorMaster/deleteDoctor`,
+        {id: doctorId},
+        {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("adminToken")}`,
+          },
+        }
+      );
+      if (response.data.statusCode == 200 && response.data.success==true) {
 
         // Show success alert
         Swal.fire({

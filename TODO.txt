@@ -1,0 +1,5 @@
+// Implement pagination on customers and and doctors 
+// add search functionly to all tabel 
+// make user dashbaord  
+// make admin dashbaord  
+

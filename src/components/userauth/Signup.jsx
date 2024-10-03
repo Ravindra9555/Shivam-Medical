@@ -5,11 +5,11 @@ import { BsEye, BsEyeSlash } from "react-icons/bs"; // Eye icons
 import Aos from "aos";
 import { Link } from "react-router-dom";
  import signupimg  from  "../../assets/signup.svg"
-
+ import Loader from "../loader/Loader"
 const Signup = () => {
   const [passwordVisible, setPasswordVisible] = useState(false);
   const [formData, setFormData] = useState({ email: "", password: "", confirmPassword: ""});
-
+  const [loading, setLoading] = useState(false);
   // AOS initialization
   useEffect(() => {
     Aos.init({ duration: 1000 });
@@ -24,10 +24,29 @@ const Signup = () => {
     setPasswordVisible(!passwordVisible);
   };
 
-  const handleLogin = (e) => {
+  const handleLogin = async(e) => {
     e.preventDefault();
-    // Handle login logic
-    console.log(formData);
+    try {
+      setLoading(true);
+      const res = await axios.post (`${import.meta.env.VITE_BASEURL}/v1/api/users/login`,formData);
+      if(res.status == 200 && res.data.statusCode==200){
+         Swal.fire({
+          icon:'success',
+          title: 'Success',
+          text:  res.data.message,
+         })
+      }
+    } catch (error) {
+      Swal.fire({
+        icon: 'error',
+        title: 'Error',
+        text: error.response.data.message,
+      }) 
+      
+    }
+    finally{
+      setLoading(false);
+    }
   };
 
   return (
@@ -106,7 +125,7 @@ const Signup = () => {
                         <Form.Control
                           type={passwordVisible ? "text" : "password"}
                           placeholder="Enter Confirm Password"
-                          name="password"
+                          name="confirmPassword"
                           value={formData.confirmPassword}
                           onChange={handleInputChange}
                           required

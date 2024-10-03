@@ -36,13 +36,7 @@ const AdminLogin = () => {
         formData
       );
       if (res.status === 200 && res.data.statusCode === 200) {
-        Swal.fire({
-          icon: "success",
-          title: "Success",
-          
-          text: res.data.message,
-        });
-
+        
         const data = res.data.data.admin;
         setAdmin({
           id: data._id,
@@ -53,7 +47,14 @@ const AdminLogin = () => {
           profilePic: data.profilePic,
         });
         sessionStorage.setItem("adminToken", res.data.data.accessToken);
-
+        Swal.fire({
+          icon: "success",
+          title: "Success",
+          showConfirmButton: false,
+          timer: 1500,
+          text: res.data.message,
+        });
+        
         // Set flag to true after successful login
         setIsLoginSuccessful(true);
       }
@@ -71,7 +72,7 @@ const AdminLogin = () => {
   // Use useEffect to navigate after admin state is updated
   useEffect(() => {
     if (isLoginSuccessful) {
-      navigate("/dashboard");
+      navigate("/appointments");
     }
   }, [isLoginSuccessful, navigate]);
 

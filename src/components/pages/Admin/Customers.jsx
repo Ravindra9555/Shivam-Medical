@@ -2,10 +2,11 @@ import React, { useEffect, useState } from "react";
 import DataTable from "react-data-table-component";
 import axios from "axios";
 import Swal from "sweetalert2";
+import { useNavigate } from "react-router-dom";
 const Customers = () => {
   const [users, setUsers] = useState([]);
   const [loading, setLoading] = useState(true);
-
+ const navigate = useNavigate();
   useEffect(() => {
     fetchUsers();
   }, []);
@@ -101,6 +102,13 @@ const Customers = () => {
 
   const columns = [
     {
+      name: "Profile",
+      selector: (row) =>(<>
+        <img src={row.profilePic ||"https://via.placeholder.com/100"} alt="" height={50} width={50} className="rounded-circle m-1" />
+      </>),
+    width:"100px"
+    },
+    {
       name: "Name",
       selector: (row) => row.name,
       sortable: true,
@@ -151,7 +159,11 @@ const Customers = () => {
 
   return (
     <div>
+      <div className="d-flex justify-content-between">
+
       <h3>User Management</h3>
+      <button type="button" className="btn btn-primary" onClick={()=> navigate("/userregister")}>User Registration</button>
+      </div>
       <DataTable
         columns={columns}
         data={users}

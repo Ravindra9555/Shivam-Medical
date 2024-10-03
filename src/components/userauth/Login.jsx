@@ -3,16 +3,18 @@ import React, { useState, useEffect } from "react";
 import { Form, Button, Card, Row, Col, Container } from "react-bootstrap";
 import { BsEye, BsEyeSlash } from "react-icons/bs"; // Eye icons
 
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
  import loginimg  from  "../../assets/login.svg"
 import axios from "axios";
 import Swal from "sweetalert2";
 import Loader from "../loader/Loader";
+import { useUser } from "../../context/UserContext";
 const Login = () => {
   const [passwordVisible, setPasswordVisible] = useState(false);
   const [formData, setFormData] = useState({ email: "", password: "" });
   const [loding ,setLoding]= useState(false);
-
+  const { setUser } = useUser();
+const navigate= useNavigate();
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
@@ -29,11 +31,22 @@ const Login = () => {
       setLoding(true);
       const res = await axios.post (`${import.meta.env.VITE_BASEURL}/v1/api/users/login`,formData);
       if(res.status == 200 && res.data.statusCode==200){
+         setUser({
+          id: res.data.data.user._id,
+          email: res.data.data.user.email,
+          password: res.data.data.user.password,
+          profilePic: res.data.data.user.profilePic,
+          name: res.data.data.user.name,
+          role: res.data.data.user.role,
+         })
          Swal.fire({
           icon:'success',
           title: 'Success',
           text:  res.data.message,
+          showConfirmButton: false,
+          timer:800
          })
+          navigate("/user/bookappointment")
       }
     } catch (error) {
       Swal.fire({
@@ -105,9 +118,9 @@ const Login = () => {
                           value={formData.password}
                           onChange={handleInputChange}
                           required
-                          minLength={8}
-                          pattern="^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$"
-                          title="Password must be at least 8 characters long, contain at least one uppercase letter, one lowercase letter, one number, and one special character"
+                          // minLength={8}
+                          // pattern="^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$"
+                          // title="Password must be at least 8 characters long, contain at least one uppercase letter, one lowercase letter, one number, and one special character"
                         />
                         <span
                           className="position-absolute"

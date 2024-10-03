@@ -35,6 +35,7 @@ const AdminContext = createContext();
 
 const AdminProvider = ({ children }) => {
   const [admin, setAdmin] = useState(() => {
+    
     // Load the initial state from sessionStorage if available
     const storedAdmin = sessionStorage.getItem("admin");
     return storedAdmin ? JSON.parse(storedAdmin) : {

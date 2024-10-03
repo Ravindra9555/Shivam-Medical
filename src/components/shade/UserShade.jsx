@@ -9,58 +9,35 @@ import { IoIosSpeedometer } from "react-icons/io";
 import { MdContactPhone } from "react-icons/md";
 import { FaCartArrowDown } from "react-icons/fa";
 import { IoIosPeople } from "react-icons/io";
- import { useAdmin } from "../../context/AdminContext";
-const Shade = () => {
+import { useUser } from "../../context/UserContext";
+const UserShade = () => {
   // Define the list of menu items
   const menuItems = [
     {
       title: "Dashboard",
       icon: <IoIosSpeedometer />,
-      link: "/dashboard",
+      link: "/user/dashboard",
       submenu: [],
     },
     {
       title: "Appointments",
       icon: <FaCartArrowDown />,
-      link: "/appointments",
+      link: "/user/bookappointment",
       submenu: [],
     },
-    {
-      title: "Orders",
-      icon: <FaCartArrowDown />,
-      link: "/orders",
-      submenu: [],
-    },
-    {
-      title: "Contact",
-      icon: <MdContactPhone />,
-      link: "/contact-us",
-      submenu: [
-        // { title: "Item 1", link: "/contact/item1" },
-        // { title: "Item 2", link: "/contact/item2" },
-      ],
-    },
-    {
-      title: "Customers",
-      icon: <IoIosPeople />,
-      link: "/customers",
-      submenu: [],
-    
-    },
-    
-    {
-      title: "Doctors",
-      icon: <IoIosPeople />,
-      link: "/doctors",
-      submenu: [],
-    },
+    // {
+    //   title: "Orders",
+    //   icon: <FaCartArrowDown />,
+    //   link: "/user/orders",
+    //   submenu: [],
+    // },
+  
   ];
- const  {admin} = useAdmin();
- const logout=()=>{
-    sessionStorage.removeItem("adminToken");
-    window.location.href="/adminlogin";
- 
- }
+  const { user } = useUser();
+  const logout = () => {
+    sessionStorage.removeItem("userToken");
+    window.location.href = "/login";
+  };
 
   return (
     <div>
@@ -72,7 +49,9 @@ const Shade = () => {
                 to="/"
                 className="d-flex align-items-center pb-3 mb-md-0 me-md-auto text-white text-decoration-none"
               >
-                <span className="fs-5 d-none d-sm-inline text-dark">Shivam Medical</span>
+                <span className="fs-5 d-none d-sm-inline text-dark">
+                  Shivam Medical
+                </span>
               </Link>
               <ul
                 className="nav nav-pills flex-column mb-sm-auto mb-0 align-items-center align-items-sm-start"
@@ -146,30 +125,32 @@ const Shade = () => {
                       aria-expanded="false"
                     >
                       <img
-                        src={admin?.profilePic ||"https://placeholder.com/100"}
+                        src={user?.profilePic || "https://placeholder.com/100"}
                         alt="User"
                         width="50"
                         height="50"
                         className="rounded-circle"
                       />
-                      <span className="d-none d-sm-inline mx-1">{admin.name}</span>
+                      <span className="d-none d-sm-inline mx-1">
+                        {user.name}
+                      </span>
                     </Link>
                     <ul
                       className="dropdown-menu dropdown-menu-light text-small shadow dropdown-menu-end"
                       style={{ maxHeight: "200px", overflowY: "auto" }}
                     >
-                      <li>
+                      {/* <li>
                         <Link className="dropdown-item" to="#">
                           New project...
                         </Link>
                       </li>
                       <li>
-                        <Link className="dropdown-item" to="/admins">
-                          Manage admins 
+                        <Link className="dropdown-item" to="/users">
+                          Manage users
                         </Link>
-                      </li>
+                      </li> */}
                       <li>
-                        <Link className="dropdown-item" to="/adminprofile">
+                        <Link className="dropdown-item" to="/userprofile">
                           Profile
                         </Link>
                       </li>
@@ -177,7 +158,10 @@ const Shade = () => {
                         <hr className="dropdown-divider" />
                       </li>
                       <li>
-                        <Button className="dropdown-item  btn-outline-danger btn"  onClick={logout}>
+                        <Button
+                          className="dropdown-item  btn-outline-danger btn"
+                          onClick={logout}
+                        >
                           Sign out
                         </Button>
                       </li>
@@ -187,7 +171,7 @@ const Shade = () => {
               </Container>
             </Navbar>
             <div className="mt-2">
-                <Outlet/>
+              <Outlet />
             </div>
           </div>
         </div>
@@ -196,4 +180,4 @@ const Shade = () => {
   );
 };
 
-export default Shade;
+export default UserShade;
