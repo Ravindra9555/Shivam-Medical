@@ -46,7 +46,7 @@ const navigate= useNavigate();
           showConfirmButton: false,
           timer:800
          })
-          navigate("/user/bookappointment")
+          navigate("/user/userdashboard")
       }
     } catch (error) {
       Swal.fire({
@@ -54,7 +54,6 @@ const navigate= useNavigate();
         title: 'Error',
         text: error.response.data.message,
       }) 
-      
     }
     finally{
       setLoding(false);

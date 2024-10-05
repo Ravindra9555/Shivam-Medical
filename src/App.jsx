@@ -11,7 +11,8 @@ const Signup = lazy(() => import("./components/userauth/Signup"));
 const ForgetPassword = lazy(() =>import("./components/userauth/ForgetPassword"));
 const UserShade = lazy(()=> import("./components/shade/UserShade"));
 const UserAppointments = lazy(()=> import("./components/pages/user/Appointments"))
-const BookAppointment = lazy(() => import("./components/pages/user/BookAppointment"))
+const BookAppointment = lazy(() => import("./components/pages/user/BookAppointment"));
+const  Userdashboard = lazy(()=>import("./components/pages/user/UserDashbaord"));
 //  admin
 const AdminLogin = lazy(() => import("./components/adminAuth/AdminLogin"));
 const AdminProfle = lazy(() => import("./components/pages/Admin/AdminProfile"));
@@ -40,6 +41,7 @@ function App() {
           <Route path="/forgot-password" element={<ForgetPassword />} />
           <Route path="/reset-password/:resetToken" element={<ResetPassword />}/>
           <Route path="/user" element={<UserShade />}>
+          <Route path="userdashboard" element={<Userdashboard/>}/>
             <Route path="bookappointment" element={<BookAppointment />} />
             {/* <Route path="settings" element={<Settings />} /> */}
           </Route>

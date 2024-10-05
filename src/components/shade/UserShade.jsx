@@ -16,7 +16,7 @@ const UserShade = () => {
     {
       title: "Dashboard",
       icon: <IoIosSpeedometer />,
-      link: "/user/dashboard",
+      link: "/user/userdashboard",
       submenu: [],
     },
     {
@@ -98,9 +98,9 @@ const UserShade = () => {
           <div className="col py-3">
             <Navbar expand="lg" className="bg-body-tertiary">
               <Container fluid>
-                <Navbar.Brand as={Link} to="#">
+                {/* <Navbar.Brand as={Link} to="#">
                   Navbar scroll
-                </Navbar.Brand>
+                </Navbar.Brand> */}
                 <Navbar.Toggle aria-controls="navbarScroll" />
                 <Navbar.Collapse id="navbarScroll">
                   <Nav
@@ -108,12 +108,12 @@ const UserShade = () => {
                     style={{ maxHeight: "100px" }}
                     navbarScroll
                   >
-                    <Nav.Link as={Link} to="#action1">
+                    {/* <Nav.Link as={Link} to="#action1">
                       Home
                     </Nav.Link>
                     <Nav.Link as={Link} to="#action2">
                       Link
-                    </Nav.Link>
+                    </Nav.Link> */}
                   </Nav>
 
                   <div className="dropdown ">
