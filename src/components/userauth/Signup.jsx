@@ -3,12 +3,14 @@ import React, { useState, useEffect } from "react";
 import { Form, Button, Card, Row, Col, Container } from "react-bootstrap";
 import { BsEye, BsEyeSlash } from "react-icons/bs"; // Eye icons
 import Aos from "aos";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
  import signupimg  from  "../../assets/signup.svg"
  import Loader from "../loader/Loader"
+import axios from "axios";
 const Signup = () => {
+  const  navigate = useNavigate();
   const [passwordVisible, setPasswordVisible] = useState(false);
-  const [formData, setFormData] = useState({ email: "", password: "", confirmPassword: ""});
+  const [formData, setFormData] = useState({ email: "", password: "", confirmPassword: "", role:"user"});
   const [loading, setLoading] = useState(false);
   // AOS initialization
   useEffect(() => {
@@ -28,14 +30,22 @@ const Signup = () => {
     e.preventDefault();
     try {
       setLoading(true);
-      const res = await axios.post (`${import.meta.env.VITE_BASEURL}/v1/api/users/login`,formData);
-      if(res.status == 200 && res.data.statusCode==200){
+      const res = await axios.post (`${import.meta.env.VITE_BASEURL}/v1/api/users/register`,formData);
+      if(res.status == 200 && res.data.statusCode==201){
          Swal.fire({
           icon:'success',
           title: 'Success',
           text:  res.data.message,
+          
          })
-      }
+         setFormData({
+           email: "",
+           password: "",
+           confirmPassword: "",
+           role:"user"
+         })
+      } 
+      navigate("/login")          ;
     } catch (error) {
       Swal.fire({
         icon: 'error',
@@ -49,7 +59,10 @@ const Signup = () => {
     }
   };
 
-  return (
+   if(loading)
+{
+  return <Loader/>
+}  return (
     <>
       <HomeNavbar />
       <Container

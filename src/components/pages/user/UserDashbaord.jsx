@@ -50,7 +50,7 @@ const UserDashboard = () => {
   return (
 
     <div className="row">
-      {user && user.name &&(
+      {user && !user.name &&(
 
       <UserCompleteProfile />
       )}
@@ -69,7 +69,18 @@ const UserDashboard = () => {
               back to <span className="text-success">Shivam Medical</span>!
             </h3>
           </div>
+
         </div>
+           <div className="rounded p-2 shadow"> 
+            <div className="d-flex">
+              <div>
+                
+              </div>
+              <div></div>
+            </div>
+
+
+           </div>
 
       </div>
       <div className="col-md-6 p-2 ">

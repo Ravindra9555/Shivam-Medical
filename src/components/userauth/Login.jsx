@@ -46,6 +46,7 @@ const navigate= useNavigate();
           showConfirmButton: false,
           timer:800
          })
+          localStorage.setItem("userToken", res.data.access_token)
           navigate("/user/userdashboard")
       }
     } catch (error) {
