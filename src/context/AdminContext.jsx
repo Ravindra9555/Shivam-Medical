@@ -1,33 +1,3 @@
-// import { useContext, createContext, useState, useMemo } from "react";
-
-// // Create the Admin Context
-// const AdminContext = createContext();
-
-// // AdminProvider Component
-// const AdminProvider = ({ children }) => {
-//   const [admin, setAdmin] = useState({
-//     id: "",
-//     name: "",
-//     email: "",
-//     role: "",
-//     isActive: false,  // Default to a boolean value
-//     profilePic: "",
-//   });
-
-//   // Memoize the context value to prevent unnecessary re-renders
-//   const value = useMemo(() => ({ admin, setAdmin }), [admin]);
-
-//   return (
-//     <AdminContext.Provider value={value}>
-//       {children}
-//     </AdminContext.Provider>
-//   );
-// };
-
-// // Custom Hook to use Admin Context
-// const useAdmin = () => useContext(AdminContext);
-
-// export { AdminProvider, useAdmin };
 
 import { useContext, createContext, useState, useEffect } from "react";
 

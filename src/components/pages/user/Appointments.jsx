@@ -6,10 +6,14 @@ import dayjs from "dayjs";
 import axios from "axios";
 import DataTable from "react-data-table-component";
 import Swal from "sweetalert2";
+ import { useUser } from "../../../context/UserContext";
 
+// This component displays all appointments for the logged-in user
 const Appointments = () => {
   const [date, setDate] = useState(dayjs()); // Initialize as a dayjs object
   const [data, setData] = useState([]);
+   const { user} = useUser();
+
 
   const columns = [
     {
@@ -110,7 +114,9 @@ const Appointments = () => {
 
   const getAllAppointments = async () => {
     try {
-      const res = await axios.get(`${import.meta.env.VITE_BASEURL}/v1/api/appointment/getAllAppointments`, {
+      const res = await axios.post(`${import.meta.env.VITE_BASEURL}/v1/api/appointment/getAllAppointmentsById`,{
+            id: user.id
+      }, {
         headers: {
           Authorization: `Bearer ${sessionStorage.getItem("adminToken")}`,
         },
@@ -146,7 +152,7 @@ const Appointments = () => {
         timer: 1500,
       });
       // Refetch appointments after deletion
-      fetchAppointments();
+      // fetchAppointments();
     } catch (error) {
       console.log("Error deleting appointment:", error);
       Swal.fire({
@@ -178,7 +184,7 @@ const Appointments = () => {
         timer: 1500,
       });
       // Refetch appointments after deletion
-      fetchAppointments();
+      // fetchAppointments();
     } catch (error) {
       console.log("Error deleting appointment:", error);
       Swal.fire({
@@ -211,7 +217,7 @@ const Appointments = () => {
         timer: 1500,
       });
       // Refetch appointments after deletion
-      fetchAppointments();
+      // fetchAppointments();
     } catch (error) {
       console.log("Error deleting appointment:", error);
       Swal.fire({
@@ -225,7 +231,7 @@ const Appointments = () => {
   return (
     <>
       <div className="pt-1">
-        <div className="select-date d-flex justify-content-between gap-2 align-items-center">
+        {/* <div className="select-date d-flex justify-content-between gap-2 align-items-center">
           <LocalizationProvider dateAdapter={AdapterDayjs}>
             <DatePicker
               label="Select date"
@@ -235,13 +241,14 @@ const Appointments = () => {
           </LocalizationProvider>
           <h4 className="text-center ms-4">
             {date ? dayjs(date).format("DD/MM/YYYY") : "No date selected"} Appointments
+            All Appointments
           </h4>
           <div className="d-flex justify-content-between gap-2">
             <button className="btn btn-primary" onClick={getAllAppointments}>
               All Appointments
             </button>
           </div>
-        </div>
+        </div> */}
         <div className="pt-2 bg-light">
           <DataTable
             title="Appointments"

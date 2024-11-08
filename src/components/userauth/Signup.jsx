@@ -1,12 +1,13 @@
 import HomeNavbar from "../landing/HomeNavbar";
 import React, { useState, useEffect } from "react";
-import { Form, Button, Card, Row, Col, Container } from "react-bootstrap";
 import { BsEye, BsEyeSlash } from "react-icons/bs"; // Eye icons
 import Aos from "aos";
 import { Link, useNavigate } from "react-router-dom";
  import signupimg  from  "../../assets/signup.svg"
  import Loader from "../loader/Loader"
 import axios from "axios";
+import { Grid, Box, TextField, IconButton, Button, Typography, Card, CircularProgress } from "@mui/material";
+
 const Signup = () => {
   const  navigate = useNavigate();
   const [passwordVisible, setPasswordVisible] = useState(false);
@@ -65,118 +66,125 @@ const Signup = () => {
 }  return (
     <>
       <HomeNavbar />
-      <Container
-        fluid
-        className="d-flex justify-content-center align-items-center"
-        style={{ height: "100vh" }}
+     
+      <Box
+        display="flex"
+        justifyContent="center"
+        alignItems="center"
+        sx={{ height: "100vh", backgroundColor: "#f4f6f8" }}
       >
-        <Row
-          className="justify-content-center"
-          data-aos="fade-up"
-          style={{
-            width: "100vw",
-          }}
-        >
-          <Col md={10} lg={8}>
-            <div className="shadow-lg">
-              <Row noGutters>
-                {/* Image Section */}
-                <Col
-                  md={6}
-                  className="d-flex align-items-center justify-content-center  rounded  secondary-background"
+        
+        <Grid container spacing={2} sx={{ maxWidth: "md", padding: 2, backgroundColor:"white", borderRadius:"5px" }} bgcolor={"paper"}>
+          <Grid item xs={12} sm={6}>
+            <Box
+              sx={{
+                display: "flex",
+                justifyContent: "center",
+                alignItems: "center",
+                height: "100%",
+                backgroundImage: `url(${signupimg})`,
+                backgroundSize: "cover",
+                borderRadius: 2,
+              }}
+            />
+          </Grid>
+
+          <Grid item xs={12} sm={6}>
+            {/* <Card sx={{ padding: 3 }}> */}
+              <Typography variant="h6" align="left" gutterBottom>
+               Sign Up 
+              </Typography>
+              <form onSubmit={handleLogin}>
+                <TextField
+                size="small"
+                  fullWidth
+                  label="Email address"
+                  variant="outlined"
+                  name="email"
+                  value={formData.email}
+                  onChange={handleInputChange}
+                  sx={{ marginBottom: 2 }}
+                  required
+                />
+                <Box sx={{ position: "relative" }}>
+                  <TextField
+                    fullWidth
+                     size="small"
+                    label="Password"
+                    variant="outlined"
+                    type={passwordVisible ? "text" : "password"}
+                    name="password"
+                    value={formData.password}
+                    onChange={handleInputChange}
+                    required
+                    sx={{ marginBottom: 2 }}
+                  />
+                  <IconButton
+                    sx={{
+                      position: "absolute",
+                      right: 8,
+                      top: "35%",
+                      transform: "translateY(-50%)",
+                    }}
+                    onClick={handlePasswordVisibility}
+                  >
+                    {passwordVisible ? <BsEyeSlash /> : <BsEye />}
+                  </IconButton>
+                </Box>
+                <Box sx={{ position: "relative" }}>
+                  <TextField
+                    fullWidth
+                     size="small"
+                    label="Confirm Password"
+                    variant="outlined"
+                    type={passwordVisible ? "text" : "password"}
+                    name="confirmPassword"
+                    value={formData.confirmPassword}
+                    onChange={handleInputChange}
+                    required
+                    sx={{ marginBottom: 2 }}
+                  />
+                  <IconButton
+                    sx={{
+                      position: "absolute",
+                      right: 8,
+                      top: "35%",
+                      transform: "translateY(-50%)",
+                    }}
+                    onClick={handlePasswordVisibility}
+                  >
+                    {passwordVisible ? <BsEyeSlash /> : <BsEye />}
+                  </IconButton>
+                </Box>
+
+                <Button
+                  variant="contained"
+                  type="submit"
+                  fullWidth
+                  sx={{ marginTop: 2 }}
+                  color="primary"
                 >
-                  <img src={signupimg} loading="lazy" className="img-fluid" alt="" />
-                </Col>
+                  Login
+                </Button>
+              </form>
 
-                {/* Login Form Section */}
-                <Col md={6} className="p-2 ">
-                  <Card.Body className="p-4">
-                    <h3 className="mb-4 text-start">Signup</h3>
-                    <Form onSubmit={handleLogin} className="text-start">
-                      <Form.Group controlId="formEmail">
-                        <Form.Label>Email address</Form.Label>
-                        <Form.Control
-                          type="email"
-                          placeholder="Enter email"
-                          name="email"
-                          value={formData.email}
-                          onChange={handleInputChange}
-                          required
-                        />
-                      </Form.Group>
+              {/* <Box sx={{ marginTop: 2 }}>
+                <Link to="/forgot-password" variant="body2" color="primary">
+                  Forgot password?
+                </Link>
+              </Box> */}
 
-                      <Form.Group
-                        controlId="formPassword"
-                        className="position-relative"
-                      >
-                        <Form.Label>Password</Form.Label>
-                        <Form.Control
-                          type={passwordVisible ? "text" : "password"}
-                          placeholder="Enter password"
-                          name="password"
-                          value={formData.password}
-                          onChange={handleInputChange}
-                          required
-                        />
-                        <span
-                          className="position-absolute"
-                          style={{
-                            right: "10px",
-                            top: "38px",
-                            cursor: "pointer",
-                          }}
-                          onClick={handlePasswordVisibility}
-                        >
-                          {passwordVisible ? <BsEyeSlash /> : <BsEye />}
-                        </span>
-                      </Form.Group>
-                      <Form.Group
-                        controlId="formPassword"
-                        className="position-relative"
-                      >
-                        <Form.Label>Confirm Password </Form.Label>
-                        <Form.Control
-                          type={passwordVisible ? "text" : "password"}
-                          placeholder="Enter Confirm Password"
-                          name="confirmPassword"
-                          value={formData.confirmPassword}
-                          onChange={handleInputChange}
-                          required
-                        />
-                        <span
-                          className="position-absolute"
-                          style={{
-                            right: "10px",
-                            top: "38px",
-                            cursor: "pointer",
-                          }}
-                          onClick={handlePasswordVisibility}
-                        >
-                          {passwordVisible ? <BsEyeSlash /> : <BsEye />}
-                        </span>
-                      </Form.Group>
+              <Box sx={{ textAlign: "center", marginTop: 2 }}>
+               Already have an account?{" "}
+                <Link to="/login" variant="body2" color="primary">
+                  Login
+                </Link>
+              </Box>
+            {/* </Card> */}
+          </Grid>
+        </Grid>
+      </Box>
 
-                      <Button
-                        variant="primary"
-                        type="submit"
-                        className="mt-2"
-                        block
-                      >
-                        Signup
-                      </Button>
-                    </Form>
-                    <hr />
-                
-                    <div className="text-center">
-                      Already have a account <Link to="/login">Login</Link>
-                    </div>
-                  </Card.Body>
-                </Col>
-              </Row>
-            </div>
-          </Col>
-        </Row>
-      </Container>
     </>
   );
 };

@@ -1,113 +1,127 @@
-// import React, { useState } from 'react'
-// import Button from 'react-bootstrap/Button';
-// import Container from 'react-bootstrap/Container';
-// import Nav from 'react-bootstrap/Nav';
-// import Navbar from 'react-bootstrap/Navbar';
-// import logo from "../../assets/logo.svg"
-// import { useNavigate } from 'react-router-dom';
-// function HomeNavbar() {
-//    const [loginpage, setloginPage] = useState(true);
-//    const navigate = useNavigate();
 
-//    const handleLoginClick = () => {
-//       setloginPage(false);
-//       navigate("/login"); // Navigate to the login page
-//    }
-   
-//   return (
-//     <Navbar expand="lg" className="bg-body-tertiary"  fixed='top'>
-//       <Container fluid>
-//         <Navbar.Brand  to="/">
-//         <img src={logo} alt="logo" loading='lazy' style={{height:"50px", width:"100px"}} />
-//         </Navbar.Brand>
-//         <Navbar.Toggle aria-controls="navbarScroll" />
-//         <Navbar.Collapse id="navbarScroll">
-//           <Nav
-//             className="ms-auto my-2 mx my-lg-0"
-//             style={{ maxHeight: '100px' }}
-//             navbarScroll
-//           >
-//             <Nav.Link href="#home">Home</Nav.Link>
-//             <Nav.Link href="#about">About us</Nav.Link>
-//             <Nav.Link href="#services">Services</Nav.Link>
-//             <Nav.Link href="#appointment">Appointment</Nav.Link>
-           
-//           </Nav>
-//           {
-//             loginpage?
-//             <Button className="d-flex" variant='outline-primary' onClick={handleLoginClick}>
-//                Patient Login
-//             </Button>
-//             : null
-//           }
-           
-         
-//         </Navbar.Collapse>
-//       </Container>
-//     </Navbar>
-//   )
-// }
-
-// export default HomeNavbar
-
-import React, { useState } from 'react';
-import Button from 'react-bootstrap/Button';
-import Container from 'react-bootstrap/Container';
-import Nav from 'react-bootstrap/Nav';
-import Navbar from 'react-bootstrap/Navbar';
+import * as React from 'react';
+import AppBar from '@mui/material/AppBar';
+import Box from '@mui/material/Box';
+import Toolbar from '@mui/material/Toolbar';
+import IconButton from '@mui/material/IconButton';
+import Typography from '@mui/material/Typography';
+import Menu from '@mui/material/Menu';
+import MenuIcon from '@mui/icons-material/Menu';
+import Container from '@mui/material/Container';
+import Button from '@mui/material/Button';
+import MenuItem from '@mui/material/MenuItem';
+import { useLocation, useNavigate } from 'react-router-dom';
 import logo from "../../assets/logo.svg";
-import { useNavigate, useLocation } from 'react-router-dom';
 
-function HomeNavbar() {
-   const [loginpage, setloginPage] = useState(true);
-   const navigate = useNavigate();
-   const location = useLocation();
-   
-   // Function to navigate to the home page with a section
-   const handleNavClick = (sectionId) => {
-      if (location.pathname !== '/') {
-         // Navigate to home with section hash
-         navigate(`/#${sectionId}`);
-      } else {
-         // If already on the homepage, just scroll to section
-         document.getElementById(sectionId).scrollIntoView({ behavior: 'smooth' });
-      }
-   };
+const pages = ['home', 'about', 'services', 'appointment'];
 
-   const handleLoginClick = () => {
-      setloginPage(false);
-      navigate("/login"); // Navigate to the login page
-   };
-   
+function ResponsiveAppBar() {
+  const [anchorElNav, setAnchorElNav] = React.useState(null);
+  const navigate = useNavigate();
+  const location = useLocation();
+
+  const handleOpenNavMenu = (event) => {
+    setAnchorElNav(event.currentTarget);
+  };
+
+  const handleCloseNavMenu = () => {
+    setAnchorElNav(null);
+  };
+
+  // Function to navigate to the home page with a section
+  const handleNavClick = (sectionId) => {
+    if (location.pathname !== '/') {
+      navigate(`/#${sectionId}`);
+    } else {
+      document.getElementById(sectionId)?.scrollIntoView({ behavior: 'smooth' });
+    }
+    handleCloseNavMenu(); // Close menu after navigation
+  };
+
+  const isLoginPage = location.pathname === '/login';
+
   return (
-    <Navbar expand="lg" className="bg-body-tertiary" fixed='top'>
-      <Container fluid>
-        <Navbar.Brand onClick={() => handleNavClick('home')} style={{ cursor: 'pointer' }}>
-          <img src={logo} alt="logo" loading='lazy' style={{height:"50px", width:"100px"}} />
-        </Navbar.Brand>
-        <Navbar.Toggle aria-controls="navbarScroll" />
-        <Navbar.Collapse id="navbarScroll">
-          <Nav
-            className="ms-auto my-2 mx my-lg-0"
-            style={{ maxHeight: '100px' }}
-            navbarScroll
+    <AppBar position="fixed" color="default">
+      <Container maxWidth="xl">
+        <Toolbar disableGutters>
+          <Typography
+            variant="h6"
+            noWrap
+            component="a"
+            href="/"
+            sx={{
+              mr: 2,
+              display: { xs: 'none', md: 'flex' },
+              fontFamily: 'monospace',
+              fontWeight: 700,
+              color: 'inherit',
+              textDecoration: 'none',
+              cursor: 'pointer'
+            }}
+            onClick={() => handleNavClick('home')}
           >
-            <Nav.Link onClick={() => handleNavClick('home')}>Home</Nav.Link>
-            <Nav.Link onClick={() => handleNavClick('about')}>About us</Nav.Link>
-            <Nav.Link onClick={() => handleNavClick('services')}>Services</Nav.Link>
-            <Nav.Link onClick={() => handleNavClick('appointment')}>Appointment</Nav.Link>
-          </Nav>
-          {
-            loginpage ?
-            <Button className="d-flex" variant='outline-primary' onClick={handleLoginClick}>
-               Patient Login
+            <img src={logo} alt="logo" height={50} width={100} />
+          </Typography>
+
+          {/* Mobile Menu */}
+          <Box sx={{ flexGrow: 1, display: { xs: 'flex', md: 'none' } }}>
+            <IconButton
+              size="large"
+              aria-label="menu"
+              aria-controls="menu-appbar"
+              aria-haspopup="true"
+              onClick={handleOpenNavMenu}
+              color="inherit"
+            >
+              <MenuIcon />
+            </IconButton>
+            <Menu
+              id="menu-appbar"
+              anchorEl={anchorElNav}
+              anchorOrigin={{
+                vertical: 'bottom',
+                horizontal: 'left',
+              }}
+              keepMounted
+              transformOrigin={{
+                vertical: 'top',
+                horizontal: 'left',
+              }}
+              open={Boolean(anchorElNav)}
+              onClose={handleCloseNavMenu}
+              sx={{ display: { xs: 'block', md: 'none' } }}
+            >
+              {pages.map((page) => (
+                <MenuItem key={page} onClick={() => handleNavClick(page)}>
+                  <Typography textAlign="center">{page.charAt(0).toUpperCase() + page.slice(1)}</Typography>
+                </MenuItem>
+              ))}
+            </Menu>
+          </Box>
+
+          {/* Desktop Menu */}
+          <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' }, gap: 2 }}>
+            {pages.map((page) => (
+              <Button
+                key={page}
+                onClick={() => handleNavClick(page)}
+                sx={{ my: 2, color: 'text.primary', display: 'block' }}
+              >
+                {page.charAt(0).toUpperCase() + page.slice(1)}
+              </Button>
+            ))}
+          </Box>
+
+          {/* Login Button */}
+          {!isLoginPage && (
+            <Button variant="contained" color="primary" onClick={() => navigate("/login")}>
+              Login
             </Button>
-            : null
-          }
-        </Navbar.Collapse>
+          )}
+        </Toolbar>
       </Container>
-    </Navbar>
+    </AppBar>
   );
 }
 
-export default HomeNavbar;
+export default ResponsiveAppBar;

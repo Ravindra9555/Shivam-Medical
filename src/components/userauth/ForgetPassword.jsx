@@ -1,13 +1,6 @@
-import React, { useState, useEffect } from "react";
-import {
-  Form,
-  Button,
-  Card,
-  Container,
-  Row,
-  Col,
-  Alert,
-} from "react-bootstrap";
+
+import React, { useState } from "react";
+import { TextField, Button, Card, Container, Grid, Alert, Typography } from "@mui/material";
 import Loader from "../loader/Loader";
 import axios from "axios";
 import Swal from "sweetalert2";
@@ -34,72 +27,75 @@ const ForgetPassword = () => {
       // Make a POST request to the backend to send the reset password link
       const response = await axios.post(`${import.meta.env.VITE_BASEURL}/v1/api/users/resetlink`, { email });
       if (response.status === 200) {
-        setMessage( response.data.message);
+        setMessage(response.data.message);
         Swal.fire({
           icon: "success",
           title: "Success",
-          text: message ,
-        })
+          text: message,
+        });
       } else {
         throw new Error("Failed to send reset link. Please try again.");
       }
-     
     } catch (error) {
-      setError(error?.response.data.message);
+      setError(error?.response?.data?.message);
     } finally {
       setLoading(false);
     }
   };
-  if (loading){
-    return <Loader />
+
+  if (loading) {
+    return <Loader />;
   }
-    return (
-      <>
-        <Container
-          className="d-flex justify-content-center align-items-center"
-          style={{ height: "100vh" }}
-        >
-          <Row
-            className="justify-content-center"
-            data-aos="fade-up"
-            style={{ width: "100vw" }}
-          >
-            <Col md={8} lg={6}>
-              <Card className="shadow-lg p-4">
-                <h3 className="mb-4 text-start">Forgot Password</h3>
 
-                {message && <Alert variant="success">{message}</Alert>}
-                {error && <Alert variant="danger">{error}</Alert>}
+  return (
+    <Container
+      maxWidth="sm"
+      sx={{
+        display: "flex",
+        justifyContent: "center",
+        alignItems: "center",
+        minHeight: "100vh",
+      }}
+    >
+      <Grid container justifyContent="center">
+        <Grid item xs={12} md={8}>
+          <Card sx={{ padding: 3, boxShadow: 3 }}>
+            <Typography variant="h6" gutterBottom>
+              Forgot Password
+            </Typography>
 
-                <Form onSubmit={handleSubmit}>
-                  <Form.Group controlId="formEmail">
-                    <Form.Label>Email address</Form.Label>
-                    <Form.Control
-                      type="email"
-                      placeholder="Enter your email"
-                      
-                      value={email}
-                      onChange={handleInputChange}
-                      required
-                    />
-                  </Form.Group>
+            {message && <Alert severity="success">{message}</Alert>}
+            {error && <Alert severity="error">{error}</Alert>}
 
-                  <Button
-                    variant="primary"
-                    className="mt-2"
-                    type="submit"
-                    block
-                    disabled={loading}
-                  >
-                    {loading ? "Sending..." : "Send Reset Link"}
-                  </Button>
-                </Form>
-              </Card>
-            </Col>
-          </Row>
-        </Container>
-      </>
-    );
+            <form onSubmit={handleSubmit}>
+              <TextField
+                label="Email Address"
+                type="email"
+                size="small"
+                fullWidth
+                margin="normal"
+                variant="outlined"
+                value={email}
+                onChange={handleInputChange}
+                required
+                helperText="Please enter your registered email address."
+              />
+
+              <Button
+                variant="contained"
+                type="submit"
+                fullWidth
+                sx={{ marginTop: 2 }}
+                disabled={loading}
+              >
+                {loading ? "Sending..." : "Send Reset Link"}
+              </Button>
+            </form>
+          </Card>
+        </Grid>
+      </Grid>
+    </Container>
+  );
 };
 
 export default ForgetPassword;
