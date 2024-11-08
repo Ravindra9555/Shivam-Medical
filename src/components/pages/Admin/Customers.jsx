@@ -3,6 +3,7 @@ import DataTable from "react-data-table-component";
 import axios from "axios";
 import Swal from "sweetalert2";
 import { useNavigate } from "react-router-dom";
+import { Button } from "@mui/material";
 const Customers = () => {
   const [users, setUsers] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -159,10 +160,10 @@ const Customers = () => {
 
   return (
     <div>
-      <div className="d-flex justify-content-between">
+      <div className="d-flex justify-content-between bg-white p-2 rouned shadow">
 
-      <h3>User Management</h3>
-      <button type="button" className="btn btn-primary" onClick={()=> navigate("/userregister")}>User Registration</button>
+      <h5>User Management</h5>
+      <Button type="button"  variant="contained" onClick={()=> navigate("/userregister")}>User Registration</Button>
       </div>
       <DataTable
         columns={columns}

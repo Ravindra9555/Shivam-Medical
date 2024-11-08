@@ -1,18 +1,29 @@
+
 import HomeNavbar from "../landing/HomeNavbar";
 import React, { useState, useEffect } from "react";
-import { Form, Button, Card, Row, Col, Container } from "react-bootstrap";
-import { BsEye, BsEyeSlash } from "react-icons/bs"; // Eye icons
-
+import {
+  TextField,
+  Button,
+  Card,
+  Container,
+  Grid,
+  IconButton,
+  Typography,
+  Box,
+  Alert
+} from "@mui/material";
+import { Visibility, VisibilityOff } from "@mui/icons-material";
 import { Link, useNavigate } from "react-router-dom";
 import loginimg from "../../assets/login.svg";
 import axios from "axios";
 import Swal from "sweetalert2";
 import Loader from "../loader/Loader";
 import { useAdmin } from "../../context/AdminContext";
+
 const AdminLogin = () => {
   const [passwordVisible, setPasswordVisible] = useState(false);
   const [formData, setFormData] = useState({ email: "", password: "" });
-  const [loding, setLoding] = useState(false);
+  const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
   const { setAdmin } = useAdmin();
 
@@ -30,13 +41,12 @@ const AdminLogin = () => {
   const handleLogin = async (e) => {
     e.preventDefault();
     try {
-      setLoding(true);
+      setLoading(true);
       const res = await axios.post(
         `${import.meta.env.VITE_BASEURL}/v1/api/admin/login`,
         formData
       );
       if (res.status === 200 && res.data.statusCode === 200) {
-        
         const data = res.data.data.admin;
         setAdmin({
           id: data._id,
@@ -54,139 +64,136 @@ const AdminLogin = () => {
           timer: 1500,
           text: res.data.message,
         });
-        
-        // Set flag to true after successful login
         setIsLoginSuccessful(true);
       }
     } catch (error) {
       Swal.fire({
         icon: "error",
         title: "Error",
-        text: error.response.data.message,
+        text: error.response?.data?.message,
       });
     } finally {
-      setLoding(false);
+      setLoading(false);
     }
   };
 
-  // Use useEffect to navigate after admin state is updated
   useEffect(() => {
     if (isLoginSuccessful) {
       navigate("/appointments");
     }
   }, [isLoginSuccessful, navigate]);
 
-  if (loding) {
+  if (loading) {
     return <Loader />;
   }
+
   return (
     <>
       <HomeNavbar />
       <Container
-        fluid
-        className="d-flex justify-content-center align-items-center"
-        style={{ height: "100vh" }}
+        maxWidth="lg"
+        sx={{
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
+          minHeight: "100vh",
+        }}
       >
-        <Row
-          className="justify-content-center"
-          data-aos="fade-up"
-          style={{
-            width: "100vw",
-          }}
-        >
-          <Col md={10} lg={8}>
-            <div className="shadow-lg">
-              <Row noGutters>
+        <Grid container spacing={2} justifyContent="center">
+          <Grid item xs={12} md={10} lg={8}>
+            <Card sx={{ display: "flex", boxShadow: 3 }}>
+              <Grid container>
                 {/* Image Section */}
-                <Col
+                <Grid
+                  item
+                  xs={12}
                   md={6}
-                  className="d-flex align-items-center justify-content-center  rounded  secondary-background"
+                  sx={{
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "center",
+                    bgcolor: "secondary.light",
+                    borderRadius: "4px 0 0 4px",
+                  }}
                 >
-                  <img
+                  <Box
+                    component="img"
                     src={loginimg}
-                    loading="lazy"
-                    alt=""
-                    className="img-fluid"
+                    alt="Login"
+                    sx={{
+                      width: "100%",
+                      maxWidth: "400px",
+                      p: 2,
+                      objectFit: "contain",
+                    }}
                   />
-                </Col>
+                </Grid>
 
                 {/* Login Form Section */}
-                <Col md={6} className="p-2 ">
-                  <Card.Body className="p-4">
-                    <h3 className="mb-4 text-start">Admin Login</h3>
-                    <Form onSubmit={handleLogin} className="text-start">
-                      <Form.Group controlId="formEmail">
-                        <Form.Label>Email address</Form.Label>
-                        <Form.Control
-                          type="email"
-                          placeholder="Enter email"
-                          name="email"
-                          value={formData.email}
-                          onChange={handleInputChange}
-                          required
-                        />
-                      </Form.Group>
+                <Grid item xs={12} md={6}>
+                  <Box sx={{ p: 4 }}>
+                    <Typography variant="h6" gutterBottom>
+                      Admin Login
+                    </Typography>
+                    <form onSubmit={handleLogin}>
+                      <TextField
+                        label="Email Address"
+                        type="email"
+                        name="email"
+                        size="small"
+                        fullWidth
+                        value={formData.email}
+                        onChange={handleInputChange}
+                        required
+                        margin="normal"
+                      />
 
-                      <Form.Group
-                        controlId="formPassword"
-                        className="position-relative"
-                      >
-                        <Form.Label>Password</Form.Label>
-                        <Form.Control
+                      <Box sx={{ position: "relative" }}>
+                        <TextField
+                          label="Password"
                           type={passwordVisible ? "text" : "password"}
-                          placeholder="Enter password"
                           name="password"
+                          fullWidth
+                          size="small"
                           value={formData.password}
                           onChange={handleInputChange}
                           required
-                          // minLength={8}
-                          // pattern="^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$"
-                          title="Password must be at least 8 characters long, contain at least one uppercase letter, one lowercase letter, one number, and one special character"
+                          margin="normal"
+                          helperText="Password must be at least 8 characters long, contain at least one uppercase letter, one lowercase letter, one number, and one special character"
                         />
-                        <span
-                          className="position-absolute"
-                          style={{
-                            right: "10px",
-                            top: "38px",
-                            cursor: "pointer",
-                          }}
+                        <IconButton
                           onClick={handlePasswordVisibility}
+                          sx={{
+                            position: "absolute",
+                            right: "10px",
+                            top: "25%",
+                            transform: "translateY(-50%)",
+                          }}
                         >
-                          {passwordVisible ? <BsEyeSlash /> : <BsEye />}
-                        </span>
-                      </Form.Group>
+                          {passwordVisible ? <VisibilityOff /> : <Visibility />}
+                        </IconButton>
+                      </Box>
 
                       <Button
-                        variant="primary"
+                        variant="contained"
                         type="submit"
-                        className="mt-2"
-                        block
+                        fullWidth
+                        sx={{ mt: 2 }}
+                        disabled={loading}
                       >
-                        Login
+                        {loading ? "Logging in..." : "Login"}
                       </Button>
-                    </Form>
-                    <hr />
-                    {/* <div className="text-start">
-  
-                        <Link to="/forgot-password" className="text-primary text-start">
-                          Forgot password?
-                        </Link>
-                      </div> */}
-
-                    {/* <div className="text-center">
-                       Don,t have a account <Link to="/signup">
-                         Signup 
-                        </Link>
-                       </div> */}
-                  </Card.Body>
-                </Col>
-              </Row>
-            </div>
-          </Col>
-        </Row>
+                    </form>
+                  </Box>
+                </Grid>
+              </Grid>
+            </Card>
+          </Grid>
+        </Grid>
       </Container>
     </>
   );
 };
 
 export default AdminLogin;
+

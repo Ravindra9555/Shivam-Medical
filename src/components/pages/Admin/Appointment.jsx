@@ -7,6 +7,7 @@ import axios from "axios";
 import DataTable from "react-data-table-component";
 import Swal from "sweetalert2";
 import { useNavigate } from "react-router-dom";
+import { Box, Button } from "@mui/material";
 
 const Appointment = () => {
   const [date, setDate] = useState(dayjs());
@@ -14,74 +15,114 @@ const Appointment = () => {
   const [dateState, setDateState] = useState(true);
  const navigate = useNavigate();
   // Define table columns based on actual data structure
-  const columns = [
-    {
-      name: "Date/ Time",
-      selector: (row) => dayjs(row.date).format("DD/MM/YYYY") + " - " + dayjs(row.time).format("h:m A"), // Format date properly
-      sortable: true,
+ // Define table columns based on actual data structure
+const columns = [
+  {
+    name: "Date/ Time",
+    selector: (row) =>
+      dayjs(row.date).format("DD/MM/YYYY") + " - " + dayjs(row.time).format("h:mm A"), // Format date properly
+    sortable: true,
+    wrap: true, // Allows text wrapping in the column
+  },
+  {
+    name: "Patient Name",
+    selector: (row) => row.patientId?.name,
+    sortable: true,
+    wrap: true,
+  },
+  {
+    name: "Doctor Name",
+    selector: (row) => row.doctorId?.name,
+    sortable: true,
+    wrap: true,
+  },
+  {
+    name: "Status",
+    selector: (row) => {
+      if (row.status === "pending") {
+        return <span className="badge bg-warning text-white">Pending</span>;
+      } else if (row.status === "completed") {
+        return <span className="badge bg-success text-white">Completed</span>;
+      } else {
+        return <span className="badge bg-danger text-white">Cancelled</span>;
+      }
     },
-    {
-      name: "Patient Name",
-      selector: (row) => row.patientId?.name,
-      sortable: true,
-    },
-    {
-      name: "Doctor Name",
-      selector: (row) => row.doctorId?.name,
-      sortable: true,
-    },
-    {
-      name: "Status",
-      selector: (row) => {
-        if (row.status == "pending") {
-          return <span className="badge bg-warning text-white">Pending</span>;
-        } else if (row.status =="completed") {
-          return <span className="badge bg-success text-white">Completed</span>;
-        } else {
-          return <span className="badge bg-danger text-white">Cancelled</span>;
-        }
-      },
-      sortable: true,
-    },
-    {
-      name: "Message",
-      selector: (row) => row.comments,
-      sortable: true,
-    },
-    {
-      name: "Action",
-      cell: (row) => (
-        <div>
-          {row.status == "pending" && (
-            <>
-              <button className="btn btn-sm btn-outline-success" onClick={()=>  CompleteAppointment(row._id)}>Completed</button>
-              <button className="btn btn-sm btn-outline-danger ms-2" onClick={()=>cancelAppointment(row._id)}>Cancel</button>
-            </>
-          )}
-          {row.status == "completed" && (
-            <>
-              <button className="btn btn-sm btn-outline-warning" onClick={()=> RescheduleAppointment(row._id)}>Re-schedule</button>
-              <button className="btn btn-sm btn-outline-danger ms-2" onClick={()=>cancelAppointment(row._id)}>Cancel</button>
-            </>
-          )}
-        </div>
-      ),
-      sortable: false,
-      width:"200px"
-    },
-    {
-      name: "Delete",
-      selector: (row) => (
-        <button
-          className="btn btn-sm btn-danger ms-2"
-          onClick={() => deleteAppointment(row._id)} // Attach delete function
-        >
-          Delete
-        </button>
-      ),
-      sortable: false,
-    },
-  ];
+    sortable: true,
+    center: true,
+  },
+  {
+    name: "Message",
+    selector: (row) => row.comments,
+    sortable: true,
+    wrap: true,
+  },
+  {
+    name: "Action",
+    cell: (row) => (
+      <Box display="flex" flexDirection="column" gap={1}>
+        {row.status === "pending" && (
+          <>
+            <Button
+              variant="outlined"
+              color="success"
+              size="small"
+              onClick={() => CompleteAppointment(row._id)}
+            >
+              Completed
+            </Button>
+            <Button
+              variant="outlined"
+              color="error"
+              size="small"
+              onClick={() => cancelAppointment(row._id)}
+            >
+              Cancel
+            </Button>
+          </>
+        )}
+        {row.status === "completed" && (
+          <>
+            <Button
+              variant="outlined"
+              color="warning"
+              size="small"
+              onClick={() => RescheduleAppointment(row._id)}
+            >
+              Re-schedule
+            </Button>
+            <Button
+              variant="outlined"
+              color="error"
+              size="small"
+              onClick={() => cancelAppointment(row._id)}
+            >
+              Cancel
+            </Button>
+          </>
+        )}
+      </Box>
+    ),
+    sortable: false,
+    center: true,
+    minWidth: "150px", // Responsive minimum width for action buttons
+  },
+  {
+    name: "Delete",
+    cell: (row) => (
+      <Button
+        variant="contained"
+        color="error"
+        size="small"
+        onClick={() => deleteAppointment(row._id)}
+      >
+        Delete
+      </Button>
+    ),
+    sortable: false,
+    center: true,
+    minWidth: "100px",
+  },
+];
 
   // Fetch appointments whenever the date changes
   useEffect(() => {
@@ -264,8 +305,9 @@ const Appointment = () => {
     <>
       <div className="pt-1">
         <div className="select-date d-flex justify-content-between gap-2 align-items-center">
-          <LocalizationProvider dateAdapter={AdapterDayjs}>
+          <LocalizationProvider  size="small" dateAdapter={AdapterDayjs}>
             <DatePicker
+            size="small"
               label="Select date"
               format="DD-MM-YYYY"
               value={date}
@@ -274,20 +316,21 @@ const Appointment = () => {
           </LocalizationProvider>
           <h5 className="text-center ms-4">{dateState? <>{date.format("DD/MM/YYYY")} </>: <>All </> }Appointments</h5>
           <div className="d-flex justify-content-between gap-2">
-            <button className="btn btn-primary" onClick={getAllAppointments}>
+            <Button variant="contained" onClick={getAllAppointments}>
               All Appointments
-            </button>
-            <button className="btn btn-primary" onClick={()=>navigate("/bookappointmentbyadmin")}>Book New Appointment</button>
+            </Button>
+            <Button variant="contained" onClick={()=>navigate("/bookappointmentbyadmin")}>Book New Appointment</Button>
           </div>
         </div>
         <div className="pt-2 bg-light">
-          <DataTable
-            title="Appointments"
-            columns={columns}
-            data={data} // Use fetched appointment data
-            pagination
-            highlightOnHover
-          />
+        <DataTable
+      title="Appointments"
+      columns={columns}
+      data={data}
+      pagination
+      highlightOnHover
+      responsive // Enables responsive table
+    />
         </div>
       </div>
     </>

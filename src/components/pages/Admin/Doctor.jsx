@@ -1,6 +1,6 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
-import Button from "react-bootstrap/Button";
+import {Button} from "@mui/material";
 import Modal from "react-bootstrap/Modal";
 import DataTable from "react-data-table-component";
 import Swal from "sweetalert2";
@@ -321,8 +321,8 @@ const Doctor = () => {
         </Modal.Body>
       </Modal>
 
-      <div className="mt-2 bg-light">
-        <Button variant="primary" onClick={handleShow}>
+      <div className="mt-2 ">
+        <Button variant="contained" onClick={handleShow}>
           Doctor Registration
         </Button>
         <div className="mt-2">
